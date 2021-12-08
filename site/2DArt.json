@@ -1,0 +1,40 @@
+{
+    "images": [
+        {
+            "fileName": "corgi.jpeg",
+            "caption": "A corgi dog"
+        },
+        {
+            "fileName": "dog_cat.jpeg",
+            "caption": "dog and cat"
+        },
+        {
+            "fileName": "eskimo_dog.jpg",
+            "caption": "An Eskimo Dog"
+        },
+        {
+            "fileName": "goldens.jpeg",
+            "caption": "Golden Retrievers"
+        }, 
+        {
+            "fileName": "husky.jpeg",
+            "caption": "A Husky dog"
+        },
+        {
+            "fileName": "stray_dogs.jpeg",
+            "caption": "Some stray dogs"
+        },
+        {
+            "fileName": "therapy.jpeg",
+            "caption": "Therapy dog"
+        }, 
+        {
+            "fileName": "three_dog.jpg",
+            "caption": "Lol"
+        },
+        {
+            "fileName": "two_puppies.jpeg",
+            "caption": "A couple puppies"
+        }
+    ]
+}

@@ -1,0 +1,119 @@
+#top-bar {
+    display: flex;
+    align-items: center;
+    height: 45px;
+    border-bottom: 1px solid black;
+    z-index: 1;
+    box-shadow: 0px 5px 9px 0px rgb(156 153 152);
+    border: none;
+}
+
+.spacer {
+    display: flex;
+    flex-grow: 1;
+}
+
+.tab {
+    height: inherit;
+    margin: 10px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    font-size: 17px;
+}
+
+.tab.active, .tab.active:hover {
+    background-color: #b0b0b0;
+}
+
+.tab:hover {
+    background-color: #ddd;
+}
+
+.gallery {
+    display: none;
+}
+
+.gallery.show {
+    display: grid;
+    width: 85vw;
+    margin: 40px auto auto auto;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px 30px;
+}
+
+.gallery img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.image-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    float: left;
+    cursor: pointer;
+}
+
+.image-caption {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: black;
+    color: white;
+    margin-bottom: 5px;
+    font-family: sans-serif;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    /* -webkit-transition: visibility 0s, opacity 0.5s linear;  */
+    transition: visibility 0s, opacity 0.3s linear;
+}
+
+.image-container:hover .image-caption {
+    width: 150px;
+    padding: 8px 15px;
+    visibility: visible;
+    opacity: 0.7; 
+}
+
+.full-image-view {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    position: fixed;
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.full-image-view img {
+    max-width: 50%;
+    max-height: 50%;
+}
+
+.full-image-button {
+    position: absolute;
+    background: transparent;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+#full-image-close-button {
+    top: 5%;
+    right: 5%;
+}
+
+#left-arrow {
+    left: 5%;
+}
+
+#right-arrow {
+    right: 5%;
+}
