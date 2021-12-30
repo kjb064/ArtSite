@@ -1,70 +1,75 @@
-/** 
- * @typedef ImageFile
- * @property {string} fileName
- * @property {string} caption
- */
-
 /**
  * @typedef FocusedImage
  * @property {HTMLImageElement} imageElement
  * @property {number} imageIndex
  */
 
-
+/**
+ * Class to display images, loaded from the directory provided, in a 
+ * grid-like view
+ */
 export class ImageGallery {
 
     /**
+     * Constructor.
      * 
-     * @param {Array<ImageFile>} imageFiles 
+     * @param {!string} imageDirectory the directory containing the files to display
      */
-    constructor(imageFiles) {
+    constructor(imageDirectory) {
         /** @type {HTMLDivElement} */
         this.el = document.createElement('div');
         this.el.classList.add('gallery');
 
         /** @type {FocusedImage} */
         this.fullImage = {
-            imageElement: document.createElement('img')
+            imageElement: document.createElement('img'),
+            imageIndex: -1
         }
 
         /** @type {HTMLDivElement} */
         this.fullImageView = this.buildFullImageView();
 
-        /** @type {Array<ImageFile>} */
-        this.imageFiles = imageFiles;
+        /** @type {string} */
+        this.imageDirectory = imageDirectory;
 
         /** @type {Array<HTMLImageElement>} */
         this.imageElements = [];
     }
 
+    /**
+     * Builds the image gallery, loaded with the files contained within the 
+     * provided image directory.
+     */
     async buildGallery() {
-        for (let image of this.imageFiles) {
-            const source = await this.getImageSource(image);
-            if (source) {                    
-                const imageContainer = this.buildImage(source, image.caption);
+        const params = new URLSearchParams();
+        params.append('directory', this.imageDirectory);
+        const urlString = `./phpScripts/getImages.php?${params.toString()}`;
+        const response = await fetch(urlString);
+        if (response.ok) {
+            const imageFiles = await response.json();
+            for (let image of imageFiles) {              
+                const imageContainer = this.buildImage(image);
                 this.el.appendChild(imageContainer);
             }
         }
     }
 
     /**
-     * @param {string} imageSource
-     * @param {string} imageCaption
-     * @returns {HTMLDivElement}
+     * Creates an image element whose source is the file with the given name. 
+     * The image is wrapped in a div, which is then returned.
+     * 
+     * @param {string} imageFileName the file name of the image
+     * @returns {HTMLDivElement} the image container
      */
-    buildImage(imageSource, imageCaption) {
+    buildImage(imageFileName) {
         let imageContainer = document.createElement('div');
         imageContainer.classList.add('image-container');
 
         let imageElement = document.createElement('img');
-        imageElement.src = imageSource;
+        // TODO don't want to have 'art' here and in PHP script... Return entire path from script?
+        imageElement.src = 'art/' + this.imageDirectory + '/' + imageFileName; 
         this.imageElements.push(imageElement);
         imageContainer.appendChild(imageElement);
-
-        let captionDiv = document.createElement('div');
-        captionDiv.classList.add('image-caption');
-        captionDiv.textContent = imageCaption;
-        imageContainer.appendChild(captionDiv);
 
         imageContainer.addEventListener('click', () => {
             this.fullImage.imageElement.src = imageElement.src;
@@ -75,32 +80,25 @@ export class ImageGallery {
     }
 
     /**
-     * @param {ImageFile} imageFile
+     * Displays this image gallery.
      */
-    async getImageSource(imageFile) {
-        const params = new URLSearchParams();
-        params.append('fileName', imageFile.fileName);
-
-        // TODO encoding required (test with images that include underscore and space in file name)
-        const urlString = `./phpScripts/getImages.php?${params.toString()}`;
-        const response = await fetch(urlString);
-        if (response.ok) {
-            const blob = await response.blob();
-            return URL.createObjectURL(blob);
-        }
-        return null;
-    }
-
     show() {
         this.el.classList.add('show');
     }
 
+    /**
+     * Hides this image gallery.
+     */
     hide() {
         this.el.classList.remove('show');
     }
 
     /**
-     * @returns {HTMLDivElement}
+     * Builds the full image view div, including the close button and the 
+     * left and right arrow buttons to change the image that is displayed 
+     * within the div.
+     * 
+     * @returns {HTMLDivElement} the full image view div
      */
     buildFullImageView() {
         const fullView = document.createElement('div');
@@ -161,6 +159,9 @@ export class ImageGallery {
         return fullView;
     }
 
+    /**
+     * Removes the full image view div from the document.
+     */
     removeFullImageView() {
         document.body.removeChild(this.fullImageView);
     }

@@ -1,17 +1,11 @@
 <?php
-    if (isset($_GET["fileName"])) {
-        $file_name = $_GET["fileName"];
-        $path = "../../images/" . $file_name;
-
-        if (file_exists($path)) {
-            $image_data = file_get_contents($path);
-            // TODO content type not always jpeg... mime_content_type()
-            header("Content-Type: image/jpeg");
-            echo $image_data;
-            exit();
-        } else {
-            http_response_code(404);
-        }
+    if (isset($_GET["directory"])) {
+        $directory = "../art/" . $_GET["directory"];
+        // TODO scandir returns {boolean} false on error
+        $files = preg_grep("/\.(jpeg|jpg|png)$/i", scandir($directory));
+        $files = array_values($files);
+        echo(json_encode($files));
+        exit();
     } else {
         http_response_code(403);
     }
