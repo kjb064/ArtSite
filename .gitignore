@@ -3,7 +3,7 @@ site/art/2DArt/**
 !site/art/2DArt/readme.txt
 
 site/art/3DRenders/**
-!site/art/2DArt/readme.txt
+!site/art/3DRenders/readme.txt
 
 site/art/About/**
 !site/art/About/readme.txt
