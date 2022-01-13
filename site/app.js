@@ -1,4 +1,6 @@
+import { AbstractGallery } from './AbstractGallery.js';
 import { ImageGallery } from './ImageGallery.js';
+import { VideoGallery } from './VideoGallery.js';
 
 /**
  * Class to represent a tab and its contents.
@@ -9,13 +11,13 @@ class TabView {
      * Constructs a new TabView.
      * 
      * @param {HTMLButtonElement} tabButton the button associated with this TabView
-     * @param {ImageGallery} gallery the image gallery to display
+     * @param {AbstractGallery} gallery the gallery to display
      */
     constructor(tabButton, gallery) {
         /** @type {HTMLButtonElement} */
         this.tabButton = tabButton;
 
-        /** @type {ImageGallery} */
+        /** @type {AbstractGallery} */
         this.gallery = gallery;
 
         /** @type {boolean} */
@@ -52,8 +54,7 @@ function setup2DArtTab() {
     document.body.appendChild(gallery.el);
     
     const button = document.getElementById('2d-art');
-    const tabView = new TabView(button, gallery);
-    return tabView;
+    return new TabView(button, gallery);
 }
 
 /** 
@@ -67,8 +68,21 @@ function setup3DRendersTab() {
     document.body.appendChild(gallery.el);
     
     const button = document.getElementById('3d-renders');
-    const tabView = new TabView(button, gallery);
-    return tabView;
+    return new TabView(button, gallery);
+}
+
+/**
+ * Sets up the Animations tab.
+ * 
+ * @returns {TabView} the Animations TabView
+ */
+function setupAnimationTab() {
+    const gallery = new VideoGallery('Animation');
+    gallery.buildGallery();
+    document.body.appendChild(gallery.el);
+
+    const button = document.getElementById('animations');
+    return new TabView(button, gallery);
 }
 
 /**
@@ -79,8 +93,9 @@ function init() {
     if (tabView2dArt) tabView2dArt.activate();
 
     const tabView3dRenders = setup3DRendersTab();
+    const animations = setupAnimationTab();
 
-    const tabViews = [tabView2dArt, tabView3dRenders];
+    const tabViews = [tabView2dArt, tabView3dRenders, animations];
     tabViews.forEach((tabView) => {
         tabView.tabButton.addEventListener("click", () => {
             if (!tabView.isActive) {

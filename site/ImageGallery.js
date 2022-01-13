@@ -1,3 +1,5 @@
+import { AbstractGallery } from "./AbstractGallery.js";
+
 /**
  * @typedef FocusedImage
  * @property {HTMLImageElement} imageElement
@@ -6,9 +8,9 @@
 
 /**
  * Class to display images, loaded from the directory provided, in a 
- * grid-like view
+ * grid-like view.
  */
-export class ImageGallery {
+export class ImageGallery extends AbstractGallery {
 
     /**
      * Constructor.
@@ -16,9 +18,9 @@ export class ImageGallery {
      * @param {!string} imageDirectory the directory containing the files to display
      */
     constructor(imageDirectory) {
-        /** @type {HTMLDivElement} */
-        this.el = document.createElement('div');
-        this.el.classList.add('gallery');
+        super(imageDirectory);
+
+        this.el.classList.add('image-gallery');
 
         /** @type {FocusedImage} */
         this.fullImage = {
@@ -29,9 +31,6 @@ export class ImageGallery {
         /** @type {HTMLDivElement} */
         this.fullImageView = this.buildFullImageView();
 
-        /** @type {string} */
-        this.imageDirectory = imageDirectory;
-
         /** @type {Array<HTMLImageElement>} */
         this.imageElements = [];
     }
@@ -39,10 +38,12 @@ export class ImageGallery {
     /**
      * Builds the image gallery, loaded with the files contained within the 
      * provided image directory.
+     * 
+     * @override
      */
     async buildGallery() {
         const params = new URLSearchParams();
-        params.append('directory', this.imageDirectory);
+        params.append('directory', this.directory);
         const urlString = `./phpScripts/getImages.php?${params.toString()}`;
         const response = await fetch(urlString);
         if (response.ok) {
@@ -58,6 +59,7 @@ export class ImageGallery {
      * Creates an image element whose source is the file with the given name. 
      * The image is wrapped in a div, which is then returned.
      * 
+     * @private
      * @param {string} imageFileName the file name of the image
      * @returns {HTMLDivElement} the image container
      */
@@ -67,7 +69,7 @@ export class ImageGallery {
 
         let imageElement = document.createElement('img');
         // TODO don't want to have 'art' here and in PHP script... Return entire path from script?
-        imageElement.src = 'art/' + this.imageDirectory + '/' + imageFileName; 
+        imageElement.src = 'art/' + this.directory + '/' + imageFileName; 
         this.imageElements.push(imageElement);
         imageContainer.appendChild(imageElement);
 
@@ -80,24 +82,11 @@ export class ImageGallery {
     }
 
     /**
-     * Displays this image gallery.
-     */
-    show() {
-        this.el.classList.add('show');
-    }
-
-    /**
-     * Hides this image gallery.
-     */
-    hide() {
-        this.el.classList.remove('show');
-    }
-
-    /**
      * Builds the full image view div, including the close button and the 
      * left and right arrow buttons to change the image that is displayed 
      * within the div.
      * 
+     * @private
      * @returns {HTMLDivElement} the full image view div
      */
     buildFullImageView() {
@@ -161,6 +150,8 @@ export class ImageGallery {
 
     /**
      * Removes the full image view div from the document.
+     * 
+     * @private
      */
     removeFullImageView() {
         document.body.removeChild(this.fullImageView);
