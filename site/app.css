@@ -109,6 +109,16 @@
     right: 5%;
 }
 
+.gallery.pdf-gallery.show {
+    display: flex;
+    justify-content: center;
+}
+
+.pdf-iframe {
+    width: 75%;
+    height: 800px;
+}
+
 /** MediaViewer */
 
 .media-viewer {

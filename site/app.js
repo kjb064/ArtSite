@@ -1,5 +1,6 @@
 import { AbstractGallery } from './AbstractGallery.js';
 import { ImageGallery } from './ImageGallery.js';
+import { PDFGallery } from './PDFGallery.js';
 import { VideoGallery } from './VideoGallery.js';
 
 /**
@@ -86,6 +87,20 @@ function setupAnimationTab() {
 }
 
 /**
+ * Sets up the About Me tab.
+ * 
+ * @returns {TabView} the About Me TabView
+ */
+function setupAboutMeTab() {
+    const gallery = new PDFGallery('About');
+    gallery.buildGallery();
+    document.body.appendChild(gallery.el);
+
+    const button = document.getElementById('about-me');
+    return new TabView(button, gallery);
+}
+
+/**
  * Initializes all tabs and activates the first.
  */
 function init() {
@@ -93,9 +108,10 @@ function init() {
     if (tabView2dArt) tabView2dArt.activate();
 
     const tabView3dRenders = setup3DRendersTab();
-    const animations = setupAnimationTab();
+    const tabAnimations = setupAnimationTab();
+    const tabAboutMe = setupAboutMeTab();
 
-    const tabViews = [tabView2dArt, tabView3dRenders, animations];
+    const tabViews = [tabView2dArt, tabView3dRenders, tabAnimations, tabAboutMe];
     tabViews.forEach((tabView) => {
         tabView.tabButton.addEventListener("click", () => {
             if (!tabView.isActive) {
