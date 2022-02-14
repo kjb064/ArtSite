@@ -2,7 +2,7 @@
     class ResourceUtil {
 
         private const ART_DIRECTORY = "art";
-        private const ART_DIRECTORY_PATH = "../" . self::ART_DIRECTORY;
+        private const ART_DIRECTORY_PATH = "../../" . self::ART_DIRECTORY;
         public const DIRECTORY_PARAM = "directory";
 
         public static function getAllFiles($subDirectory, $pattern) {

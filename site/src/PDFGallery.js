@@ -20,7 +20,7 @@ export class PDFGallery extends AbstractGallery {
     async buildGallery() {
         const params = new URLSearchParams();
         params.append('directory', this.directory);
-        const urlString = `./phpScripts/getResume.php?${params.toString()}`;
+        const urlString = `./src/phpScripts/getResume.php?${params.toString()}`;
         const response = await fetch(urlString);
         if (response.ok) {
             /** @type {Array<string>} */

@@ -44,7 +44,7 @@ export class ImageGallery extends AbstractGallery {
     async buildGallery() {
         const params = new URLSearchParams();
         params.append('directory', this.directory);
-        const urlString = `./phpScripts/getImages.php?${params.toString()}`;
+        const urlString = `./src/phpScripts/getImages.php?${params.toString()}`;
         const response = await fetch(urlString);
         if (response.ok) {
             const imageFiles = await response.json();

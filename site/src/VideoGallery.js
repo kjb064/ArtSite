@@ -24,7 +24,7 @@ export class VideoGallery extends AbstractGallery {
     async buildGallery() {
         const params = new URLSearchParams();
         params.append('directory', this.directory);
-        const urlString = `./phpScripts/getVideos.php?${params.toString()}`;
+        const urlString = `./src/phpScripts/getVideos.php?${params.toString()}`;
         const response = await fetch(urlString);
         if (response.ok) {
             /** @type {Array<string>} */
