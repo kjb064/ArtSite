@@ -60,16 +60,15 @@ export class ImageGallery extends AbstractGallery {
      * The image is wrapped in a div, which is then returned.
      * 
      * @private
-     * @param {string} imageFileName the file name of the image
+     * @param {string} imageSrc the image source
      * @returns {HTMLDivElement} the image container
      */
-    buildImage(imageFileName) {
+    buildImage(imageSrc) {
         let imageContainer = document.createElement('div');
         imageContainer.classList.add('image-container');
 
         let imageElement = document.createElement('img');
-        // TODO don't want to have 'art' here and in PHP script... Return entire path from script?
-        imageElement.src = 'art/' + this.directory + '/' + imageFileName; 
+        imageElement.src = imageSrc; 
         this.imageElements.push(imageElement);
         imageContainer.appendChild(imageElement);
 

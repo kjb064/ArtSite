@@ -25,8 +25,8 @@ export class PDFGallery extends AbstractGallery {
         if (response.ok) {
             /** @type {Array<string>} */
             const data = await response.json();
-            // TODO don't want to have 'art' here and in PHP script... Return entire path from script?
-            const path = 'art/' + this.directory + '/' + data[0];
+            // TODO only have 1 path to return... update PHP script
+            const path = data[0];
             const pdfIframe = document.createElement('iframe');
             pdfIframe.classList.add('pdf-iframe');
             pdfIframe.src = path;

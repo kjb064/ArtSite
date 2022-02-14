@@ -31,10 +31,9 @@ export class VideoGallery extends AbstractGallery {
             const videoFiles = await response.json();
             if (videoFiles.length == 0) throw new Error("No videos were found in directory");
 
-            for (let video of videoFiles) {
+            for (let videoSrc of videoFiles) {
                 let videoElement = document.createElement('video');
-                // TODO don't want to have 'art' here and in PHP script... Return entire path from script?
-                videoElement.src = 'art/' + this.directory + '/' + video;
+                videoElement.src = videoSrc;
                 videoElement.controls = true;
                 videoElement.autoplay = true;
                 videoElement.muted = true;
