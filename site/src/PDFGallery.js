@@ -25,6 +25,7 @@ export class PDFGallery extends AbstractGallery {
         if (response.ok) {
             /** @type {Array<string>} */
             const data = await response.json();
+            // TODO check data is what's expected (not null, etc.)
             // TODO only have 1 path to return... update PHP script
             const path = data[0];
             const pdfIframe = document.createElement('iframe');

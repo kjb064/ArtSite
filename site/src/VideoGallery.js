@@ -6,6 +6,8 @@ import { MediaViewer } from "./MediaViewer.js";
  */
 export class VideoGallery extends AbstractGallery {
 
+    /** TODO: Ensure videos do not auto-play */
+
     constructor(directory) {
         super(directory);
 
@@ -29,18 +31,21 @@ export class VideoGallery extends AbstractGallery {
         if (response.ok) {
             /** @type {Array<string>} */
             const videoFiles = await response.json();
-            if (videoFiles.length == 0) throw new Error("No videos were found in directory");
+            // TODO check data is what's expected (not null, etc.)
+            if (videoFiles) {
+                if (videoFiles.length == 0) throw new Error("No videos were found in directory");
 
-            for (let videoSrc of videoFiles) {
-                let videoElement = document.createElement('video');
-                videoElement.src = videoSrc;
-                videoElement.controls = true;
-                videoElement.autoplay = true;
-                videoElement.muted = true;
-                this.videoElements.push(videoElement);
+                for (let videoSrc of videoFiles) {
+                    let videoElement = document.createElement('video');
+                    videoElement.src = videoSrc;
+                    videoElement.controls = true;
+                    videoElement.autoplay = true;
+                    videoElement.muted = true;
+                    this.videoElements.push(videoElement);
+                }
+                this.mediaViewer = new MediaViewer(this.videoElements);
+                this.el.appendChild(this.mediaViewer.el);
             }
-            this.mediaViewer = new MediaViewer(this.videoElements);
-            this.el.appendChild(this.mediaViewer.el);
         }
     }
 

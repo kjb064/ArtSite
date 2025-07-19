@@ -48,9 +48,12 @@ export class ImageGallery extends AbstractGallery {
         const response = await fetch(urlString);
         if (response.ok) {
             const imageFiles = await response.json();
-            for (let image of imageFiles) {              
-                const imageContainer = this.buildImage(image);
-                this.el.appendChild(imageContainer);
+            // TODO check data is what's expected (not null, etc.)
+            if (imageFiles) {
+                for (let image of imageFiles) {              
+                    const imageContainer = this.buildImage(image);
+                    this.el.appendChild(imageContainer);
+                }
             }
         }
     }
